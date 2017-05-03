@@ -467,7 +467,7 @@ void SurfaceFlinger::init() {
 
     // set SFEventThread to SCHED_FIFO to minimize jitter
     struct sched_param param = {0};
-    param.sched_priority = 1;
+    param.sched_priority = 2;
     if (sched_setscheduler(mSFEventThread->getTid(), SCHED_FIFO, &param) != 0) {
         ALOGE("Couldn't set SCHED_FIFO for SFEventThread");
     }
@@ -2244,8 +2244,7 @@ void SurfaceFlinger::setTransactionState(
         if (s.client != NULL) {
             sp<IBinder> binder = IInterface::asBinder(s.client);
             if (binder != NULL) {
-                String16 desc(binder->getInterfaceDescriptor());
-                if (desc == ISurfaceComposerClient::descriptor) {
+                if (binder->queryLocalInterface(ISurfaceComposerClient::descriptor) != NULL) {
                     sp<Client> client( static_cast<Client *>(s.client.get()) );
                     transactionFlags |= setClientStateLocked(client, s.state);
                 }
