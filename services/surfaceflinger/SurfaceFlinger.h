@@ -427,6 +427,8 @@ private:
     /* ------------------------------------------------------------------------
      * Display management
      */
+    virtual int setDisplayParameter(int displayId, int cmd,
+            int para0, int para1, int para2);
 
     /* ------------------------------------------------------------------------
      * VSync
