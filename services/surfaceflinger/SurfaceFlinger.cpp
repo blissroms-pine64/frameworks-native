@@ -3792,9 +3792,14 @@ void SurfaceFlinger::checkScreenshot(size_t w, size_t s, size_t h, void const* v
     }
 }
 
-bool SurfaceFlinger::getFrameTimestamps(const Layer& layer,
-        uint64_t frameNumber, FrameTimestamps* outTimestamps) {
-    return mFenceTracker.getFrameTimestamps(layer, frameNumber, outTimestamps);
+/* add by allwinner */
+int SurfaceFlinger::setDisplayParameter(int displayId, int cmd,
+        int para0, int para1, int para2) {
+    const HWComposer& hwc(getHwComposer());
+    ALOGD("####setDisplayParameter: dispId=%d, cmd = %d, para0 = %d, para1= %d, para2 = %d\n",
+          displayId, cmd, para0, para1, para2);
+
+    return hwc.setDisplayParameter(displayId, cmd, para0, para1, para2);
 }
 
 // ---------------------------------------------------------------------------
